@@ -7,9 +7,9 @@ from doubly_linked_list import ListNode
 
 class Queue:
     def __init__(self):
-        self.size = 0
         # Why is our DLL a good choice to store our elements? Python lists are forbidden (we need not and may not use them)
         self.storage = DoublyLinkedList()
+        self.size = self.storage.length
 
     def enqueue(self, value):
         # should add an item to the back of the queue.
