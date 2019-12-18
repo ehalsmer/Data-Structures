@@ -24,8 +24,12 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        print(self.order.head)
-
+        if key in self.storage:
+            node = self.storage[key]
+            self.order.move_to_end(node)
+            return node.value[1]
+        else:
+            return None
     """
     Adds the given key-value pair to the cache. The newly-
     added pair should be considered the most-recently used
@@ -38,10 +42,18 @@ class LRUCache:
     """
     def set(self, key, value):
         # Check the length. If at limit, delete last
-
         # Check if value is in cache
+        if key in self.storage:
+            node = self.storage[key]
+            node.value = (key, value)
+            self.order.move_to_end(node)
+            return
 
         # If in cache, move it to the front
+        if self.size == self.limit:
+            del self.storage[self.order.head.value[0]]
+            self.order.remove_from_head()
+            self.size -= 1
 
         # If not, add to the front of the cache
         self.order.add_to_tail((key,value))
@@ -49,5 +61,8 @@ class LRUCache:
         self.size += 1
 
 
-my_LRUCache = LRUCache()
-# print(my_LRUCache.get('key'))
+myCache = LRUCache()
+print(myCache.storage)
+myCache.set('akey', 23)
+print(myCache.storage)
+print(myCache.storage['akey'].value[0])
