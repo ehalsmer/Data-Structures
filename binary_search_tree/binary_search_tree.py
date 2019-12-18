@@ -23,18 +23,21 @@ class BinarySearchTree:
         go right
     '''
     def insert(self, value):
+        parent = None
         current = self
         print('current: ', current)
         while current != None:
             if value < current.value:
                 print('in left branch')
+                parent = current
                 current = current.left
             else:
                 print('right branch')
                 current = current.right
         print('current after while: ', current)
         current = BinarySearchTree(value)
-        print('current value should be bst value: ', current.value)
+        parent.left = current
+        print('current value should be bst value: ', current.value, 'left: ', current.left, 'right: ', current.right)
 
     # Return True if the tree contains the value
     # False if it does not
@@ -86,4 +89,4 @@ class BinarySearchTree:
 myBST = BinarySearchTree(78)
 print(myBST.value, myBST.left)
 myBST.insert(12)
-print(myBST.value, myBST.left)
+print(myBST.value, myBST.right)
