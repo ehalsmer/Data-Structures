@@ -23,32 +23,58 @@ class BinarySearchTree:
         go right
     '''
     def insert(self, value):
-        parent = None
-        current = self
-        print('current: ', current)
-        while current != None:
-            if value < current.value:
-                print('in left branch')
-                parent = current
-                current = current.left
+        if value < self.value:
+            if not self.left:
+                self.left = BinarySearchTree(value)
             else:
-                print('right branch')
-                current = current.right
-        print('current after while: ', current)
-        current = BinarySearchTree(value)
-        parent.left = current
-        print('current value should be bst value: ', current.value, 'left: ', current.left, 'right: ', current.right)
+                self.left.insert(value)
+        if value >= self.value:
+            if self.right is None:
+                self.right = BinarySearchTree(value)
+            else:
+                self.right.insert(value)
+
+        # parent = None
+        # current = self
+        # print('current: ', current)
+        # while current != None:
+            # if value < current.value:
+                # print('in left branch')
+                # parent = current
+                # current = current.left
+            # else:
+                # print('right branch')
+                # current = current.right
+        # print('current after while: ', current)
+        # current = BinarySearchTree(value)
+        # parent.left = current
+        # print('current value should be bst value: ', current.value, 'left: ', current.left, 'right: ', current.right)
 
     # Return True if the tree contains the value
     # False if it does not
     # searches the binary search tree for the input value, returning a boolean indicating whether the value exists in the tree or not.
     def contains(self, target):
-        pass
+        if target == self.value:
+            return True
+        if target < self.value:
+            if self.left is None:
+                return False
+            else:
+                return self.left.contains(target)
+        else: 
+            if self.right is None:
+                return False
+            else:
+                return self.right.contains(target)
+
 
     # Return the maximum value found in the tree
     # returns the maximum value in the binary search tree.
     def get_max(self):
-        pass
+        if self.right:
+            return self.right.get_max()
+        else:
+            return self.value
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
@@ -56,7 +82,16 @@ class BinarySearchTree:
     # executing the passed-in callback function on each tree node value. 
     # There is a myriad of ways to perform tree traversal; in this case any of them should work. 
     def for_each(self, cb):
-        pass
+        stack = Stack()
+        stack.push(self)
+
+        while stack.len() > 0:
+            current_node = stack.pop()
+            if current_node.right:
+                stack.push(current_node.right)
+            if current_node.left:
+                stack.push(current_node.left)
+            cb(current_node.value)
 
     # DAY 2 Project -----------------------
 
@@ -86,7 +121,11 @@ class BinarySearchTree:
     def post_order_dft(self, node):
         pass
 
-myBST = BinarySearchTree(78)
-print(myBST.value, myBST.left)
-myBST.insert(12)
-print(myBST.value, myBST.right)
+# myBST = BinarySearchTree(5)
+# print(myBST.value, myBST.left)
+# myBST.insert(2)
+# myBST.insert(3)
+# myBST.insert(7)
+# myBST.insert(6)
+# print(myBST.value, myBST.right)
+# print('Should be 3,6: ', myBST.left.right.value, myBST.right.left.value)

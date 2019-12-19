@@ -41,15 +41,15 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        # Check the length. If at limit, delete last
         # Check if value is in cache
+        # If in cache, move it to the front
         if key in self.storage:
             node = self.storage[key]
             node.value = (key, value)
             self.order.move_to_end(node)
-            return
+            return node
 
-        # If in cache, move it to the front
+        # Check the length. If at limit, delete last
         if self.size == self.limit:
             del self.storage[self.order.head.value[0]]
             self.order.remove_from_head()
@@ -63,6 +63,6 @@ class LRUCache:
 
 myCache = LRUCache()
 print(myCache.storage)
-myCache.set('akey', 23)
+myCache.set('key', 23)
 print(myCache.storage)
-print(myCache.storage['akey'].value[0])
+print(myCache.storage['key'].value[0])
